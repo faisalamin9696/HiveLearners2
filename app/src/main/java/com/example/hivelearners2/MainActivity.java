@@ -7,31 +7,39 @@ import android.transition.Transition;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.android.material.button.MaterialButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView name_tv;
-    Button state_btn;
+    EditText name_et, email_et, pass_et, confirm_pass_et;
+    MaterialButton signup_btn, already_act_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        name_tv = findViewById(R.id.name_tv);
-        state_btn = findViewById(R.id.state_btn);
+        name_et = findViewById(R.id.signup_name_et);
+        email_et = findViewById(R.id.signup_email_et);
+        pass_et = findViewById(R.id.signup_pass_et);
+        confirm_pass_et = findViewById(R.id.signup_confirm_pass_et);
+        signup_btn = findViewById(R.id.signup_btn);
+        already_act_btn = findViewById(R.id.already_act_btn);
 
-        state_btn.setOnClickListener(new View.OnClickListener() {
+
+        signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (name_tv.getVisibility() == View.INVISIBLE) {
-                    name_tv.setVisibility(View.VISIBLE);
-                    state_btn.setText("HIDE");
-                } else {
-                    name_tv.setVisibility(View.INVISIBLE);
-                    state_btn.setText("SHOW");
-                }
+
+            }
+        });
+
+        already_act_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
             }
         });

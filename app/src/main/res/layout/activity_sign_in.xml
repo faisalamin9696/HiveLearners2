@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="5dp"
-            android:text="CREATE ACCOUNT"
+            android:text="Sign In"
             android:textSize="26sp"
             android:textStyle="bold" />
 
@@ -26,12 +26,12 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Your Name"
+            android:hint="Enter Your Email"
             app:boxStrokeColor="@color/black"
             app:boxStrokeWidth="1dp">
 
             <EditText
-                android:id="@+id/signup_name_et"
+                android:id="@+id/signin_email_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -42,82 +42,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:hint="Enter Your Email"
+            android:hint="Enter Your Password"
             app:boxStrokeColor="@color/black"
-            app:boxStrokeWidth="1dp">
+            app:boxStrokeWidth="1dp"
+            app:passwordToggleEnabled="true">
 
             <EditText
-                android:id="@+id/signup_email_et"
+                android:id="@+id/signin_pass_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="2dp"
-                android:layout_weight=".5"
-                android:hint="Enter Password"
-                app:boxStrokeColor="@color/black"
-                app:boxStrokeWidth="1dp">
-
-                <EditText
-                    android:id="@+id/signup_pass_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:ignore="SpeakableTextPresentCheck" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight=".5"
-                android:hint="Confirm Password"
-                app:boxStrokeColor="@color/black"
-                app:boxStrokeWidth="1dp">
-
-                <EditText
-                    android:id="@+id/signup_confirm_pass_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:ignore="SpeakableTextPresentCheck" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/signup_btn"
+            android:id="@+id/signin_btn"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:backgroundTint="#2987B1"
-            android:text="Sign up"
+            android:backgroundTint="#2196F3"
+            android:text="Sign In"
             android:textColor="@color/white"
             app:cornerRadius="4dp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/already_act_btn"
+            android:id="@+id/forget_pass_btn"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_gravity="center"
+            android:layout_gravity="right"
             android:background="@null"
-            android:text="Already Have an Account"
+            android:text="Forget Password"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:backgroundTint="@null"
