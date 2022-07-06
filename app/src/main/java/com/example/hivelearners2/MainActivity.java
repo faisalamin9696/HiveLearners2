@@ -13,6 +13,8 @@ public class MainActivity extends AppCompatActivity {
     EditText name_et, email_et, pass_et, confirm_pass_et;
     MaterialButton signup_btn, already_act_btn;
 
+    //ok
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
