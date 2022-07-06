@@ -1,14 +1,10 @@
 package com.example.hivelearners2;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.transition.Fade;
-import android.transition.Transition;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -40,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         already_act_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, SignIn_Activity.class));
 
             }
         });
