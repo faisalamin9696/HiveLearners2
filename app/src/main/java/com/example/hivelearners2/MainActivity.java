@@ -35,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
         already_act_btn = findViewById(R.id.already_act_btn);
         sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
 
+        if (!sharedPreferences.getString("login_account", "").equals("")) {
+            startActivity(new Intent(MainActivity.this, Welcome_Activity.class));
+            finish();
+        }
+
 
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Password not matching", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                create_user(name_et.getText().toString(), email_et.getText().toString(), pass_et.getText().toString());
+                create_user(name_et.getText().toString(), email_et.getText().toString().toLowerCase(), pass_et.getText().toString());
 
 
             }
