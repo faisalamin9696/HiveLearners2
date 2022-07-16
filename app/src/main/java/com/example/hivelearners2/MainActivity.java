@@ -76,6 +76,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void create_user(String name, String email, String password) {
+
+        if (sharedPreferences.contains(email)) {
+            email_et.setError("Already exist");
+            Toast.makeText(this, "Account already exist", Toast.LENGTH_SHORT).show();
+            return;
+        }
         sharedPreferences.edit().putString(email, password).apply();
         sharedPreferences.edit().putString(email + "_name", name).apply();
         Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show();
