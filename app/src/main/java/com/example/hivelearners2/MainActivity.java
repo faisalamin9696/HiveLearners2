@@ -16,6 +16,38 @@ import com.google.android.material.button.MaterialButton;
 
 public class MainActivity extends AppCompatActivity {
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Toast.makeText(this, "Activity Started", Toast.LENGTH_SHORT).show();
+
+
+        if (!sharedPreferences.getString("login_account", "").equals("")) {
+            startActivity(new Intent(MainActivity.this, Welcome_Activity.class));
+            finish();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this, "Activity Resumed", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(this, "Activity Destroyed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "Activity Paused", Toast.LENGTH_SHORT).show();
+
+    }
+
     EditText name_et, email_et, pass_et, confirm_pass_et;
     MaterialButton signup_btn, already_act_btn;
     private SharedPreferences sharedPreferences;
@@ -35,10 +67,6 @@ public class MainActivity extends AppCompatActivity {
         already_act_btn = findViewById(R.id.already_act_btn);
         sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
 
-        if (!sharedPreferences.getString("login_account", "").equals("")) {
-            startActivity(new Intent(MainActivity.this, Welcome_Activity.class));
-            finish();
-        }
 
 
         signup_btn.setOnClickListener(new View.OnClickListener() {
