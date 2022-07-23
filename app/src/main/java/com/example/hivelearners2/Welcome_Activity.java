@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ public class Welcome_Activity extends AppCompatActivity {
     MaterialButton logout_btn;
     ProgressDialog progressDialog;
 
+    AlertDialog.Builder alertDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,17 +34,8 @@ public class Welcome_Activity extends AppCompatActivity {
         progressDialog = new ProgressDialog(Welcome_Activity.this);
         progressDialog.setMessage("Please Wait...");
 
+        alertDialog = new AlertDialog.Builder(Welcome_Activity.this);
 
-        progressDialog.show();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (progressDialog.isShowing()) {
-                    progressDialog.cancel();
-                }
-
-            }
-        }, 2000);
 
 
         welcome_username_tv = findViewById(R.id.welcome_username_tv);
@@ -55,10 +49,37 @@ public class Welcome_Activity extends AppCompatActivity {
         logout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sharedPreferences.edit().remove("login_account").apply();
-                startActivity(new Intent(Welcome_Activity.this, MainActivity.class));
-                Toast.makeText(Welcome_Activity.this, "Logout Successfully", Toast.LENGTH_SHORT).show();
-                finish();
+
+                alertDialog.setTitle("Confirmation");
+                alertDialog.setMessage("Do you really want to logout?");
+
+                alertDialog.setPositiveButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        progressDialog.show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (progressDialog.isShowing()) {
+                                    progressDialog.cancel();
+                                }
+                                sharedPreferences.edit().remove("login_account").apply();
+                                startActivity(new Intent(Welcome_Activity.this, MainActivity.class));
+                                Toast.makeText(Welcome_Activity.this, "Logout Successfully", Toast.LENGTH_SHORT).show();
+                                finish();
+
+                            }
+                        }, 2000);
+
+                    }
+                });
+                alertDialog.show();
 
 
             }
