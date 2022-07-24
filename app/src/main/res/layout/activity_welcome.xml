@@ -17,29 +17,30 @@
         android:textStyle="bold" />
 
 
-        <TextView
-            android:id="@+id/welcome_username_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="4dp"
-            android:text="faisalamin"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-    <com.google.android.material.button.MaterialButton
-        style="@style/Widget.AppCompat.ImageButton"
-        android:id="@+id/logout_btn"
+    <TextView
+        android:id="@+id/welcome_username_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        app:icon="@drawable/ic_logout_24"
-        android:backgroundTint="@android:color/transparent"
-        app:iconTint="@color/black"
+        android:layout_marginTop="4dp"
+        android:text="faisalamin"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logout_btn"
+        style="@style/Widget.AppCompat.ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:background="@null"
-        app:iconPadding="4dp"
+        android:backgroundTint="@android:color/transparent"
+        android:gravity="center"
         android:text="Logout"
-        android:gravity="center"/>
+        android:textColor="@color/black"
+        app:icon="@drawable/ic_logout_24"
+        app:iconPadding="4dp"
+        app:iconTint="@color/black" />
 
     <LinearLayout
         android:layout_width="match_parent"

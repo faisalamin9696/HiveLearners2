@@ -3,14 +3,20 @@ package com.example.hivelearners2;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +29,6 @@ public class Welcome_Activity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     MaterialButton logout_btn;
     ProgressDialog progressDialog;
-
     AlertDialog.Builder alertDialog;
 
     @Override
@@ -35,7 +40,6 @@ public class Welcome_Activity extends AppCompatActivity {
         progressDialog.setMessage("Please Wait...");
 
         alertDialog = new AlertDialog.Builder(Welcome_Activity.this);
-
 
 
         welcome_username_tv = findViewById(R.id.welcome_username_tv);
@@ -50,18 +54,24 @@ public class Welcome_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                alertDialog.setTitle("Confirmation");
-                alertDialog.setMessage("Do you really want to logout?");
+                Dialog custom_dialog = new Dialog(Welcome_Activity.this, R.style.Custom_Dialog);
+                custom_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                custom_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                custom_dialog.setContentView(R.layout.custom_dialog);
 
-                alertDialog.setPositiveButton("No", new DialogInterface.OnClickListener() {
+                MaterialButton no_btn = custom_dialog.findViewById(R.id.dialog_no_btn);
+                MaterialButton yes_btn = custom_dialog.findViewById(R.id.dialog_yes_btn);
+
+                no_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
+                    public void onClick(View v) {
+                        custom_dialog.cancel();
                     }
-                }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                });
 
+                yes_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         progressDialog.show();
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -76,11 +86,9 @@ public class Welcome_Activity extends AppCompatActivity {
 
                             }
                         }, 2000);
-
                     }
                 });
-                alertDialog.show();
-
+                custom_dialog.show();
 
             }
         });
