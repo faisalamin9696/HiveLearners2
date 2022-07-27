@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "933593866932",
+    "project_id": "hivelearners-bcd3c",
+    "storage_bucket": "hivelearners-bcd3c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933593866932:android:6d6bfc8b58980cd80bade1",
+        "android_client_info": {
+          "package_name": "com.example.hivelearners2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "933593866932-j1m0vp9n3smn8fig2b5kvti6a77h173j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWpeCeYULcIDjsV8Z4tCRYI7RPmot2R0I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933593866932-j1m0vp9n3smn8fig2b5kvti6a77h173j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
