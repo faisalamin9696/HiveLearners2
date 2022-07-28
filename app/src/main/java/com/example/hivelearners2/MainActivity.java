@@ -16,104 +16,11 @@ import com.google.android.material.button.MaterialButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Toast.makeText(this, "Activity Started", Toast.LENGTH_SHORT).show();
-
-
-        if (!sharedPreferences.getString("login_account", "").equals("")) {
-            startActivity(new Intent(MainActivity.this, Welcome_Activity.class));
-            finish();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Toast.makeText(this, "Activity Resumed", Toast.LENGTH_SHORT).show();
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Toast.makeText(this, "Activity Destroyed", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Toast.makeText(this, "Activity Paused", Toast.LENGTH_SHORT).show();
-
-    }
-
-    EditText name_et, email_et, pass_et, confirm_pass_et;
-    MaterialButton signup_btn, already_act_btn;
-    private SharedPreferences sharedPreferences;
-
-    //ok
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        name_et = findViewById(R.id.signup_name_et);
-        email_et = findViewById(R.id.signup_email_et);
-        pass_et = findViewById(R.id.signup_pass_et);
-        confirm_pass_et = findViewById(R.id.signup_confirm_pass_et);
-        signup_btn = findViewById(R.id.signup_btn);
-        already_act_btn = findViewById(R.id.already_act_btn);
-        sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
-
-
-
-        signup_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (TextUtils.isEmpty(name_et.getText())) {
-                    name_et.setError("Invalid Name");
-                    return;
-                }
-                if (TextUtils.isEmpty(email_et.getText())) {
-                    email_et.setError("Invalid Email");
-                    return;
-                }
-                if (TextUtils.isEmpty(pass_et.getText())) {
-                    pass_et.setError("Invalid Password");
-                    return;
-                }
-                if (!(pass_et.getText().toString().equals(confirm_pass_et.getText().toString()))) {
-                    Toast.makeText(MainActivity.this, "Password not matching", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                create_user(name_et.getText().toString(), email_et.getText().toString().toLowerCase(), pass_et.getText().toString());
-
-
-            }
-        });
-
-        already_act_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, SignIn_Activity.class));
-
-            }
-        });
-    }
-
-    public void create_user(String name, String email, String password) {
-
-        if (sharedPreferences.contains(email)) {
-            email_et.setError("Already exist");
-            Toast.makeText(this, "Account already exist", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        sharedPreferences.edit().putString(email, password).apply();
-        sharedPreferences.edit().putString(email + "_name", name).apply();
-        Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(MainActivity.this, SignIn_Activity.class));
-        finish();
     }
 }
