@@ -10,125 +10,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:weightSum="2">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/main_signin_btn"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="5dp"
-            android:text="CREATE ACCOUNT"
-            android:textSize="26sp"
-            android:textStyle="bold" />
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:text="Sign in"
+            android:backgroundTint="@color/teal_700"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Your Name"
-            app:boxStrokeColor="@color/black"
-            app:boxStrokeWidth="1dp">
-
-            <EditText
-                android:id="@+id/signup_name_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_baseline_account_circle_24"
-                android:drawablePadding="4dp"
-                tools:ignore="SpeakableTextPresentCheck" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:hint="Enter Your Email"
-            app:boxStrokeColor="@color/black"
-            app:boxStrokeWidth="1dp">
-
-            <EditText
-                android:id="@+id/signup_email_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_baseline_email_24"
-                android:drawablePadding="4dp"
-                tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/main_signup_btn"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:text="Sign Up"
+            app:backgroundTint="@color/purple_200"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="2dp"
-                android:layout_weight=".5"
-                android:hint="Enter Password"
-                app:boxStrokeColor="@color/black"
-                app:boxStrokeWidth="1dp">
-
-                <EditText
-                    android:id="@+id/signup_pass_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_baseline_lock_24"
-                    android:drawablePadding="4dp"
-                    tools:ignore="SpeakableTextPresentCheck" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight=".5"
-                android:hint="Confirm Password"
-                app:boxStrokeColor="@color/black"
-                app:boxStrokeWidth="1dp">
-
-                <EditText
-                    android:id="@+id/signup_confirm_pass_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_baseline_lock_24"
-                    android:drawablePadding="4dp"
-                    tools:ignore="SpeakableTextPresentCheck" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-        </LinearLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/signup_btn"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="#2987B1"
-            android:text="Sign up"
-            android:textColor="@color/white"
-            app:cornerRadius="4dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/already_act_btn"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_gravity="center"
-            android:background="@null"
-            android:text="Already Have an Account"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:backgroundTint="@null"
-            tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
+
+
 </LinearLayout>

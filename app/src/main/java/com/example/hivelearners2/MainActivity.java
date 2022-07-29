@@ -17,10 +17,26 @@ import com.google.android.material.button.MaterialButton;
 public class MainActivity extends AppCompatActivity {
 
 
+    private MaterialButton signin_btn, signup_btn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        signin_btn = findViewById(R.id.main_signin_btn);
+        signup_btn = findViewById(R.id.main_signup_btn);
+
+        signin_btn.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, SignIn_Activity.class));
+            finish();
+
+        });
+
+        signup_btn.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, Signup_Activity.class));
+            finish();
+        });
 
     }
 }
