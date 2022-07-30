@@ -95,7 +95,6 @@ public class Signup_Activity extends AppCompatActivity {
                                     alertDialog.setTitle("Done");
                                     alertDialog.setMessage("Your account is created successfully");
                                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", (dialog, which) -> {
-
                                         dialog.cancel();
 
                                     });

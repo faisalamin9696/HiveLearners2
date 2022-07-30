@@ -1,7 +1,10 @@
 package com.example.hivelearners2;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,14 +14,20 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SignIn_Activity extends AppCompatActivity {
 
-    EditText email_et, pass_et;
-    MaterialButton signin_btn, forget_pass_btn;
-
+    private EditText email_et, pass_et;
+    private MaterialButton signin_btn, forget_pass_btn;
     private SharedPreferences sharedPreferences;
+    private FirebaseAuth firebaseAuth;
+    private ProgressDialog progressDialog;
+    private AlertDialog alertDialog;
 
 
     @Override
@@ -26,6 +35,7 @@ public class SignIn_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        firebaseAuth = FirebaseAuth.getInstance();
         email_et = findViewById(R.id.signin_email_et);
         pass_et = findViewById(R.id.signin_pass_et);
         signin_btn = findViewById(R.id.signin_btn);
@@ -36,7 +46,8 @@ public class SignIn_Activity extends AppCompatActivity {
         signin_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String email = email_et.getText().toString().toLowerCase().trim();
+                String password = pass_et.getText().toString();
                 if (TextUtils.isEmpty(email_et.getText().toString())) {
                     email_et.setError("Invalid Email");
                     return;
@@ -46,25 +57,39 @@ public class SignIn_Activity extends AppCompatActivity {
                     return;
                 }
 
-                if (!sharedPreferences.contains(email_et.getText().toString().toLowerCase())) {
-                    Toast.makeText(SignIn_Activity.this, "Email not exist", Toast.LENGTH_SHORT).show();
-                } else {
-                    String get_pass = sharedPreferences.getString(email_et.getText().toString().toLowerCase(), "");
-                    if (pass_et.getText().toString().equals(get_pass)) {
+                progressDialog.setMessage("Please wait...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
 
-                        sharedPreferences.edit().putString("login_account", email_et.getText().toString()).apply();
-                        Toast.makeText(SignIn_Activity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(SignIn_Activity.this, Welcome_Activity.class));
-                        finish();
+                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (progressDialog.isShowing())
+                            progressDialog.cancel();
 
+                        alertDialog.setTitle("Successful");
+                        alertDialog.setMessage("You are successfully sign in");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", (dialog, which) -> {
+                            dialog.cancel();
+                            startActivity(new Intent(SignIn_Activity.this, Welcome_Activity.class));
+                            finish();
 
+                        });
+                        alertDialog.show();
                     } else {
-                        Toast.makeText(SignIn_Activity.this, "Login failed: Wrong password or email", Toast.LENGTH_SHORT).show();
+                        if (progressDialog.isShowing())
+                            progressDialog.cancel();
+
+                        alertDialog.setTitle("Failed");
+                        alertDialog.setMessage(task.getException().getMessage());
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", (dialog, which) -> {
+                            dialog.cancel();
+
+                        });
+                        alertDialog.show();
                     }
 
-                }
 
-
+                });
             }
         });
 
