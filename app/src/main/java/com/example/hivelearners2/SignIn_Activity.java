@@ -1,9 +1,5 @@
 package com.example.hivelearners2;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,10 +10,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SignIn_Activity extends AppCompatActivity {
@@ -36,6 +35,8 @@ public class SignIn_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(SignIn_Activity.this);
+        alertDialog = new AlertDialog.Builder(SignIn_Activity.this).create();
         email_et = findViewById(R.id.signin_email_et);
         pass_et = findViewById(R.id.signin_pass_et);
         signin_btn = findViewById(R.id.signin_btn);
@@ -63,18 +64,56 @@ public class SignIn_Activity extends AppCompatActivity {
 
                 firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        if (progressDialog.isShowing())
-                            progressDialog.cancel();
 
-                        alertDialog.setTitle("Successful");
-                        alertDialog.setMessage("You are successfully sign in");
-                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", (dialog, which) -> {
-                            dialog.cancel();
-                            startActivity(new Intent(SignIn_Activity.this, Welcome_Activity.class));
-                            finish();
+                        // Check if the login user is not null
+                        assert firebaseAuth.getCurrentUser() != null;
+                        if (firebaseAuth.getCurrentUser().isEmailVerified()) {
+                            // Email is Verified
 
-                        });
-                        alertDialog.show();
+                            if (progressDialog.isShowing())
+                                progressDialog.cancel();
+
+                            alertDialog.setTitle("Successful");
+                            alertDialog.setMessage("You are successfully sign in");
+                            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", (dialog, which) -> {
+                                dialog.cancel();
+                                startActivity(new Intent(SignIn_Activity.this, Welcome_Activity.class));
+                                finish();
+
+                            });
+                            alertDialog.show();
+
+                        } else {
+                            // Email not verified
+                            if (progressDialog.isShowing())
+                                progressDialog.cancel();
+
+                            alertDialog.setTitle("Verification Failed");
+                            alertDialog.setMessage("You email is not verified click 'VERIFY' to get the verification link.");
+                            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "VERIFY", (dialog, which) -> {
+
+                                firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
+                                    if (task.isSuccessful()) {
+                                        dialog.cancel();
+                                        Toast.makeText(SignIn_Activity.this, "Verification Link send to " + firebaseAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
+
+                                    } else {
+                                        dialog.cancel();
+                                        Toast.makeText(SignIn_Activity.this, "Verification failed", Toast.LENGTH_LONG).show();
+                                    }
+
+                                });
+
+
+                            });
+                            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL", (dialog, which) -> {
+                                dialog.cancel();
+
+                            });
+                            alertDialog.show();
+                        }
+
+
                     } else {
                         if (progressDialog.isShowing())
                             progressDialog.cancel();
