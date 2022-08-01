@@ -113,7 +113,6 @@ public class SignIn_Activity extends AppCompatActivity {
                             alertDialog.show();
                         }
 
-
                     } else {
                         if (progressDialog.isShowing())
                             progressDialog.cancel();

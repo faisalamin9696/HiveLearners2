@@ -13,11 +13,26 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
 
     private MaterialButton signin_btn, signup_btn;
+    private FirebaseAuth firebaseAuth;
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (firebaseAuth.getCurrentUser() != null) {
+            if (firebaseAuth.getCurrentUser().isEmailVerified()) {
+                startActivity(new Intent(MainActivity.this, Welcome_Activity.class));
+                finish();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
         signin_btn = findViewById(R.id.main_signin_btn);
         signup_btn = findViewById(R.id.main_signup_btn);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         signin_btn.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, SignIn_Activity.class));
