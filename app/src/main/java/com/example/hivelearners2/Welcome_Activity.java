@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +30,7 @@ public class Welcome_Activity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private AlertDialog.Builder alertDialog;
     private FirebaseAuth firebaseAuth;
+    private CardView blogs_card;
 
 
     @Override
@@ -40,6 +42,9 @@ public class Welcome_Activity extends AppCompatActivity {
         progressDialog.setMessage("Please Wait...");
         alertDialog = new AlertDialog.Builder(Welcome_Activity.this);
         firebaseAuth = FirebaseAuth.getInstance();
+        blogs_card = findViewById(R.id.blogs_card);
+
+        blogs_card.setOnClickListener(v -> startActivity(new Intent(Welcome_Activity.this, Blogs_Activity.class)));
 
 
         welcome_username_tv = findViewById(R.id.welcome_username_tv);
