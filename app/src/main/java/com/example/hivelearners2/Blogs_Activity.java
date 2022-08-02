@@ -23,7 +23,6 @@ public class Blogs_Activity extends AppCompatActivity {
         posts_lv.setAdapter(adapter);
 
 
-        // Lec 37
 
 
     }
