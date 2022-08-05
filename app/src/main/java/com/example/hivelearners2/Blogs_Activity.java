@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 public class Blogs_Activity extends AppCompatActivity {
 
     private ListView posts_lv;
@@ -17,12 +19,13 @@ public class Blogs_Activity extends AppCompatActivity {
 
         posts_lv = findViewById(R.id.posts_lv);
 
-        String[] posts_array = {"My 1st Post", "My 2nd Post", "My 3rd Post", "My 4th Post"};
+        ArrayList<MyList_POJO> myList_pojos = new ArrayList<>();
+        myList_pojos.add(new MyList_POJO("Pakistan", "Lahore"));
+        myList_pojos.add(new MyList_POJO("India", "Punjab"));
+        myList_pojos.add(new MyList_POJO("United Kingdom", "London"));
+        MyAdapter customAdapter = new MyAdapter(this, R.layout.my_list_item, myList_pojos);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, posts_array);
-        posts_lv.setAdapter(adapter);
-
-
+        posts_lv.setAdapter(customAdapter);
 
 
     }

@@ -3,13 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/HIveLearnersLectures/HiveLearners2/app/src/main/res/layout/activity_blogs.xml" value="0.1762917933130699" />
         <entry key="..\:/HIveLearnersLectures/HiveLearners2/app/src/main/res/layout/activity_main.xml" value="0.25903614457831325" />
         <entry key="..\:/HIveLearnersLectures/HiveLearners2/app/src/main/res/layout/activity_sign_in.xml" value="0.307518115942029" />
         <entry key="..\:/HIveLearnersLectures/HiveLearners2/app/src/main/res/layout/activity_signup.xml" value="0.307518115942029" />
         <entry key="..\:/HIveLearnersLectures/HiveLearners2/app/src/main/res/layout/activity_welcome.xml" value="0.307518115942029" />
         <entry key="..\:/HIveLearnersLectures/HiveLearners2/app/src/main/res/layout/custom_dialog.xml" value="0.307518115942029" />
         <entry key="..\:/HiveLearnersLectures/HiveLearners2/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/HiveLearnersLectures/HiveLearners2/app/src/main/res/layout/my_list_item.xml" value="0.2" />
       </map>
     </option>
   </component>
