@@ -30,6 +30,7 @@ public class Blogs_Activity extends AppCompatActivity implements MyAdapter.onLis
         customAdapter = new MyAdapter(this, R.layout.my_list_item, myList_pojos);
 
         posts_lv.setAdapter(customAdapter);
+        //
 
 
     }
