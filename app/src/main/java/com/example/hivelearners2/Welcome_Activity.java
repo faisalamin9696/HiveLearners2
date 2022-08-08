@@ -20,6 +20,7 @@ import androidx.cardview.widget.CardView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Welcome_Activity extends AppCompatActivity {
 
@@ -31,7 +32,6 @@ public class Welcome_Activity extends AppCompatActivity {
     private AlertDialog.Builder alertDialog;
     private FirebaseAuth firebaseAuth;
     private CardView blogs_card;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
