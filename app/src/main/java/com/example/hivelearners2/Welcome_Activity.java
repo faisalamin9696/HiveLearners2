@@ -31,7 +31,8 @@ public class Welcome_Activity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private AlertDialog.Builder alertDialog;
     private FirebaseAuth firebaseAuth;
-    private CardView blogs_card;
+    private CardView blogs_card, transfer_card;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,11 @@ public class Welcome_Activity extends AppCompatActivity {
         alertDialog = new AlertDialog.Builder(Welcome_Activity.this);
         firebaseAuth = FirebaseAuth.getInstance();
         blogs_card = findViewById(R.id.blogs_card);
+        transfer_card = findViewById(R.id.transfer_card);
+
+        transfer_card.setOnClickListener(v -> {
+            startActivity(new Intent(Welcome_Activity.this, Transfer_Funds_Activity.class));
+        });
 
         blogs_card.setOnClickListener(v -> startActivity(new Intent(Welcome_Activity.this, Blogs_Activity.class)));
 
