@@ -64,6 +64,7 @@ public class Transfer_Funds_Activity extends AppCompatActivity {
 
                     Toast.makeText(this, "Data Added", Toast.LENGTH_SHORT).show();
                 } else {
+                    //
                     if (progressDialog.isShowing())
                         progressDialog.cancel();
                     Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
