@@ -69,6 +69,7 @@ public class Transfer_Funds_Activity extends AppCompatActivity {
                         progressDialog.cancel();
                     Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
                 }
+                //
             });
 
 
