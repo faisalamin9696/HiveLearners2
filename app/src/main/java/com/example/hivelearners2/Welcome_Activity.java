@@ -57,7 +57,6 @@ public class Welcome_Activity extends AppCompatActivity {
         welcome_tabs = findViewById(R.id.welcome_tabs);
         viewPager = findViewById(R.id.viewpager);
 
-
         transfer_card.setOnClickListener(v -> {
             startActivity(new Intent(Welcome_Activity.this, Transfer_Funds_Activity.class));
         });
@@ -73,6 +72,7 @@ public class Welcome_Activity extends AppCompatActivity {
         viewPager.setAdapter(mSectionsPagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(welcome_tabs));
         welcome_tabs.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+        // Lecture 43 END
 
 
         assert firebaseAuth.getCurrentUser() != null;
