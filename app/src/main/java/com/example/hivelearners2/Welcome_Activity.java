@@ -38,7 +38,6 @@ public class Welcome_Activity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private AlertDialog.Builder alertDialog;
     private FirebaseAuth firebaseAuth;
-    private CardView blogs_card, transfer_card;
 
     private TabLayout welcome_tabs;
     private ViewPager viewPager;
@@ -52,16 +51,10 @@ public class Welcome_Activity extends AppCompatActivity {
         progressDialog.setMessage("Please Wait...");
         alertDialog = new AlertDialog.Builder(Welcome_Activity.this);
         firebaseAuth = FirebaseAuth.getInstance();
-        blogs_card = findViewById(R.id.blogs_card);
-        transfer_card = findViewById(R.id.transfer_card);
         welcome_tabs = findViewById(R.id.welcome_tabs);
         viewPager = findViewById(R.id.viewpager);
 
-        transfer_card.setOnClickListener(v -> {
-            startActivity(new Intent(Welcome_Activity.this, Transfer_Funds_Activity.class));
-        });
 
-        blogs_card.setOnClickListener(v -> startActivity(new Intent(Welcome_Activity.this, Blogs_Activity.class)));
 
 
         welcome_username_tv = findViewById(R.id.welcome_username_tv);
