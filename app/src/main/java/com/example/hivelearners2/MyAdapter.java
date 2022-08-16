@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -43,7 +44,7 @@ public class MyAdapter extends ArrayAdapter<MyList_POJO> {
         MyList_POJO pojo = getItem(position);
 
         if (pojo != null) {
-            TextView title_tv = (TextView) v.findViewById(R.id.title);
+            TextView title_tv = (TextView) v.findViewById(R.id.title_lv_item);
             TextView subTitle_tv = (TextView) v.findViewById(R.id.subTitle_lv_item);
             TextView delete_btn = (TextView) v.findViewById(R.id.delete_lv_btn);
 

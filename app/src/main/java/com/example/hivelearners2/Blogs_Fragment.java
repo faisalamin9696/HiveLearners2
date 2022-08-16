@@ -44,9 +44,6 @@ public class Blogs_Fragment extends Fragment implements MyAdapter.onListItemClic
 
         posts_lv = view.findViewById(R.id.posts_lv);
         myList_pojos = new ArrayList<>();
-        myList_pojos.add(new MyList_POJO("Pakistan", "Lahore"));
-        myList_pojos.add(new MyList_POJO("India", "Punjab"));
-        myList_pojos.add(new MyList_POJO("United Kingdom", "London"));
         customAdapter = new MyAdapter(requireContext(), R.layout.my_list_item, myList_pojos);
         posts_lv.setAdapter(customAdapter);
 
@@ -55,7 +52,15 @@ public class Blogs_Fragment extends Fragment implements MyAdapter.onListItemClic
         sendings_ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Toast.makeText(requireContext(), snapshot.getValue().toString(), Toast.LENGTH_SHORT).show();
+
+                myList_pojos.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    String username = ds.child("account").getValue(String.class);
+                    Float amount = ds.child("amount").getValue(Float.class);
+                    myList_pojos.add(new MyList_POJO(username, String.valueOf(amount)));
+                }
+                customAdapter.notifyDataSetChanged();
+
 
             }
 
