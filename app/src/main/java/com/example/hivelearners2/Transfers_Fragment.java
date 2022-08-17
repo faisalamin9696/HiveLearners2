@@ -55,7 +55,7 @@ public class Transfers_Fragment extends Fragment {
                 Toast.makeText(requireContext(), "Some field are empty", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (firebaseAuth.getCurrentUser() != null) {
+            if (firebaseAuth.getCurrentUser() == null) {
                 Toast.makeText(requireContext(), "Login Session Expired", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -84,14 +84,6 @@ public class Transfers_Fragment extends Fragment {
                 }
                 //41 lecture end
             });
-
-            hashMap.put("account", "My Account");
-            hashMap.put("amount", 1.21);
-
-            sendings_ref.child(fid).updateChildren(hashMap).addOnCompleteListener(task -> {
-
-            });
-
 
         });
         return view;

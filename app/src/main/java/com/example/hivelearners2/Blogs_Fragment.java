@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class Blogs_Fragment extends Fragment implements MyAdapter.onListItemClickListener {
+public class Blogs_Fragment extends Fragment {
 
     public Blogs_Fragment() {
         // Required empty public constructor
@@ -49,10 +50,9 @@ public class Blogs_Fragment extends Fragment implements MyAdapter.onListItemClic
 
         sendings_ref = database.getReference("sendings");
 
-        sendings_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        sendings_ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 myList_pojos.clear();
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     String username = ds.child("account").getValue(String.class);
@@ -73,11 +73,5 @@ public class Blogs_Fragment extends Fragment implements MyAdapter.onListItemClic
         return view;
     }
 
-    @Override
-    public void onDeleteClick(int position) {
-        myList_pojos.remove(position);
-        customAdapter.notifyDataSetChanged();
-        Toast.makeText(requireContext(), "Deleted", Toast.LENGTH_SHORT).show();
 
-    }
 }
