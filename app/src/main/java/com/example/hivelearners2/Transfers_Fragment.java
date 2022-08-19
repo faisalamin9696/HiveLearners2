@@ -62,15 +62,20 @@ public class Transfers_Fragment extends Fragment {
 
             String fid = firebaseAuth.getCurrentUser().getUid();
 
+            String push_key = sendings_ref.push().getKey();
+
             HashMap<String, Object> hashMap = new HashMap<String, Object>();
             hashMap.put("account", account);
             hashMap.put("amount", Float.parseFloat(amount));
+            hashMap.put("pushKey", push_key);
+
+
 
             progressDialog.setCancelable(false);
             progressDialog.setMessage("Please wait...");
             progressDialog.show();
 
-            sendings_ref.child(fid).setValue(hashMap).addOnCompleteListener(task -> {
+            sendings_ref.child(push_key).setValue(hashMap).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     if (progressDialog.isShowing())
                         progressDialog.cancel();

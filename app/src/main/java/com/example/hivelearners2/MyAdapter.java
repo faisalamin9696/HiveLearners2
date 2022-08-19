@@ -66,7 +66,7 @@ public class MyAdapter extends ArrayAdapter<MyList_POJO> {
 
                 delete_btn.setOnClickListener(v1 -> {
 
-                    String delete_child = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String delete_child = pojo.getPushKey();
                     FirebaseDatabase.getInstance().getReference("sendings").child(delete_child).removeValue().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Toast.makeText(mContext, "Deleted", Toast.LENGTH_SHORT).show();

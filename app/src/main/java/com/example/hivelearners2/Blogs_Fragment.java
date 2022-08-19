@@ -57,7 +57,9 @@ public class Blogs_Fragment extends Fragment {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     String username = ds.child("account").getValue(String.class);
                     Float amount = ds.child("amount").getValue(Float.class);
-                    myList_pojos.add(new MyList_POJO(username, String.valueOf(amount)));
+                    String pushKey = ds.child("pushKey").getValue(String.class);
+
+                    myList_pojos.add(new MyList_POJO(username, String.valueOf(amount), pushKey));
                 }
                 customAdapter.notifyDataSetChanged();
 
