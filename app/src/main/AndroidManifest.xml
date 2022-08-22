@@ -40,6 +40,9 @@
             android:exported="true" >
 
         </activity>
+        <activity android:name=".App_Intro"
+            android:exported="false"/>
+
     </application>
 
 </manifest>
