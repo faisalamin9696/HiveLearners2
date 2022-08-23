@@ -15,6 +15,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
@@ -32,6 +33,7 @@ public class Transfers_Fragment extends Fragment {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference sendings_ref;
     private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,6 +72,9 @@ public class Transfers_Fragment extends Fragment {
             hashMap.put("pushKey", push_key);
 
 
+            firestore.collection("sendings").add(hashMap).addOnCompleteListener(task -> {
+
+            });
 
             progressDialog.setCancelable(false);
             progressDialog.setMessage("Please wait...");
