@@ -30,10 +30,10 @@ public class Transfers_Fragment extends Fragment {
     private MaterialButton send_btn;
     private ProgressDialog progressDialog;
 
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference sendings_ref;
     private FirebaseAuth firebaseAuth;
-    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,23 +64,21 @@ public class Transfers_Fragment extends Fragment {
 
             String fid = firebaseAuth.getCurrentUser().getUid();
 
-            String push_key = sendings_ref.push().getKey();
+            String doc_id = firestore.collection("sendings").document().getId();
 
             HashMap<String, Object> hashMap = new HashMap<String, Object>();
             hashMap.put("account", account);
             hashMap.put("amount", Float.parseFloat(amount));
-            hashMap.put("pushKey", push_key);
+            hashMap.put("doc_id", doc_id);
 
 
-            firestore.collection("sendings").add(hashMap).addOnCompleteListener(task -> {
-
-            });
 
             progressDialog.setCancelable(false);
             progressDialog.setMessage("Please wait...");
             progressDialog.show();
 
-            sendings_ref.child(push_key).setValue(hashMap).addOnCompleteListener(task -> {
+            firestore.collection("sendings").document(doc_id).set(hashMap).addOnCompleteListener(task -> {
+
                 if (task.isSuccessful()) {
                     if (progressDialog.isShowing())
                         progressDialog.cancel();
@@ -92,8 +90,9 @@ public class Transfers_Fragment extends Fragment {
                         progressDialog.cancel();
                     Toast.makeText(requireContext(), "Failed", Toast.LENGTH_SHORT).show();
                 }
-                //41 lecture end
+
             });
+
 
         });
         return view;

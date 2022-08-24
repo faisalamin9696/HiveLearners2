@@ -27,8 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Your Email"
-            app:boxStrokeColor="@color/black"
-            app:boxStrokeWidth="1dp">
+            app:boxStrokeColor="@color/black">
 
             <EditText
                 android:id="@+id/signin_email_et"
@@ -78,11 +77,23 @@
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_gravity="right"
-            android:background="@null"
+            android:background="@color/white"
             android:text="Forget Password"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:backgroundTint="@null"
             tools:ignore="TouchTargetSizeCheck" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signup_btn"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#2196F3"
+            android:text="Sign Up"
+            android:textColor="@color/white"
+            app:cornerRadius="4dp" />
     </LinearLayout>
 </LinearLayout>

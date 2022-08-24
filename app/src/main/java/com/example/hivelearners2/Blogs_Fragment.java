@@ -34,7 +34,7 @@ public class Blogs_Fragment extends Fragment {
     ArrayList<MyList_POJO> myList_pojos;
     MyAdapter customAdapter;
 
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference sendings_ref;
 
     @Override

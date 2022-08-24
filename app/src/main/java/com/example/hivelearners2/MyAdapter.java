@@ -19,8 +19,8 @@ import java.util.ArrayList;
 
 public class MyAdapter extends ArrayAdapter<MyList_POJO> {
 
-    private int resourceLayout;
-    private Context mContext;
+    private final int resourceLayout;
+    private final Context mContext;
     ArrayList<MyList_POJO> arrayList;
     onListItemClickListener mListener;
 
@@ -49,9 +49,9 @@ public class MyAdapter extends ArrayAdapter<MyList_POJO> {
         MyList_POJO pojo = getItem(position);
 
         if (pojo != null) {
-            TextView title_tv = (TextView) v.findViewById(R.id.title_lv_item);
-            TextView subTitle_tv = (TextView) v.findViewById(R.id.subTitle_lv_item);
-            TextView delete_btn = (TextView) v.findViewById(R.id.delete_lv_btn);
+            TextView title_tv = v.findViewById(R.id.title_lv_item);
+            TextView subTitle_tv = v.findViewById(R.id.subTitle_lv_item);
+            TextView delete_btn = v.findViewById(R.id.delete_lv_btn);
 
 
             if (title_tv != null) {

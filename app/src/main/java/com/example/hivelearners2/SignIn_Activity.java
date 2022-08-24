@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class SignIn_Activity extends AppCompatActivity {
 
     private EditText email_et, pass_et;
-    private MaterialButton signin_btn, forget_pass_btn;
+    private MaterialButton signin_btn, forget_pass_btn, signup_btn;
     private SharedPreferences sharedPreferences;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
@@ -39,96 +39,99 @@ public class SignIn_Activity extends AppCompatActivity {
         alertDialog = new AlertDialog.Builder(SignIn_Activity.this).create();
         email_et = findViewById(R.id.signin_email_et);
         pass_et = findViewById(R.id.signin_pass_et);
+        signup_btn = findViewById(R.id.signup_btn);
+
         signin_btn = findViewById(R.id.signin_btn);
         forget_pass_btn = findViewById(R.id.forget_pass_btn);
         sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
 
 
-        signin_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = email_et.getText().toString().toLowerCase().trim();
-                String password = pass_et.getText().toString();
-                if (TextUtils.isEmpty(email_et.getText().toString())) {
-                    email_et.setError("Invalid Email");
-                    return;
-                }
-                if (TextUtils.isEmpty(pass_et.getText().toString())) {
-                    pass_et.setError("Invalid Password");
-                    return;
-                }
+        signup_btn.setOnClickListener(v -> {
+            startActivity(new Intent(SignIn_Activity.this, Signup_Activity.class));
+        });
 
-                progressDialog.setMessage("Please wait...");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
+        signin_btn.setOnClickListener(v -> {
+            String email = email_et.getText().toString().toLowerCase().trim();
+            String password = pass_et.getText().toString();
+            if (TextUtils.isEmpty(email_et.getText().toString())) {
+                email_et.setError("Invalid Email");
+                return;
+            }
+            if (TextUtils.isEmpty(pass_et.getText().toString())) {
+                pass_et.setError("Invalid Password");
+                return;
+            }
 
-                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
+            progressDialog.setMessage("Please wait...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
 
-                        // Check if the login user is not null
-                        assert firebaseAuth.getCurrentUser() != null;
-                        if (firebaseAuth.getCurrentUser().isEmailVerified()) {
-                            // Email is Verified
+            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
 
-                            if (progressDialog.isShowing())
-                                progressDialog.cancel();
+                if (task.isSuccessful()) {
+                    // Check if the login user is not null
+                    assert firebaseAuth.getCurrentUser() != null;
+                    if (firebaseAuth.getCurrentUser().isEmailVerified()) {
+                        // Email is Verified
 
-                            alertDialog.setTitle("Successful");
-                            alertDialog.setMessage("You are successfully sign in");
-                            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", (dialog, which) -> {
-                                dialog.cancel();
-                                startActivity(new Intent(SignIn_Activity.this, Welcome_Activity.class));
-                                finish();
-
-                            });
-                            alertDialog.show();
-
-                        } else {
-                            // Email not verified
-                            if (progressDialog.isShowing())
-                                progressDialog.cancel();
-
-                            alertDialog.setTitle("Verification Failed");
-                            alertDialog.setMessage("You email is not verified click 'VERIFY' to get the verification link.");
-                            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "VERIFY", (dialog, which) -> {
-
-                                firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
-                                    if (task.isSuccessful()) {
-                                        dialog.cancel();
-                                        Toast.makeText(SignIn_Activity.this, "Verification Link send to " + firebaseAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
-
-                                    } else {
-                                        dialog.cancel();
-                                        Toast.makeText(SignIn_Activity.this, "Verification failed", Toast.LENGTH_LONG).show();
-                                    }
-
-                                });
-
-
-                            });
-                            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL", (dialog, which) -> {
-                                dialog.cancel();
-
-                            });
-                            alertDialog.show();
-                        }
-
-                    } else {
                         if (progressDialog.isShowing())
                             progressDialog.cancel();
 
-                        alertDialog.setTitle("Failed");
-                        alertDialog.setMessage(task.getException().getMessage());
+                        alertDialog.setTitle("Successful");
+                        alertDialog.setMessage("You are successfully sign in");
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", (dialog, which) -> {
+                            dialog.cancel();
+                            startActivity(new Intent(SignIn_Activity.this, Welcome_Activity.class));
+                            finish();
+
+                        });
+                        alertDialog.show();
+
+                    } else {
+                        // Email not verified
+                        if (progressDialog.isShowing())
+                            progressDialog.cancel();
+
+                        alertDialog.setTitle("Verification Failed");
+                        alertDialog.setMessage("You email is not verified click 'VERIFY' to get the verification link.");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "VERIFY", (dialog, which) -> {
+
+                            firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
+                                if (task.isSuccessful()) {
+                                    dialog.cancel();
+                                    Toast.makeText(SignIn_Activity.this, "Verification Link send to " + firebaseAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
+
+                                } else {
+                                    dialog.cancel();
+                                    Toast.makeText(SignIn_Activity.this, "Verification failed", Toast.LENGTH_LONG).show();
+                                }
+
+                            });
+
+
+                        });
+                        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL", (dialog, which) -> {
                             dialog.cancel();
 
                         });
                         alertDialog.show();
                     }
 
+                } else {
+                    if (progressDialog.isShowing())
+                        progressDialog.cancel();
 
-                });
-            }
+                    alertDialog.setTitle("Failed");
+                    alertDialog.setMessage(task.getException().getMessage());
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", (dialog, which) -> {
+                        dialog.cancel();
+
+                    });
+                    alertDialog.show();
+                }
+
+
+            });
         });
 
         forget_pass_btn.setOnClickListener(new View.OnClickListener() {
