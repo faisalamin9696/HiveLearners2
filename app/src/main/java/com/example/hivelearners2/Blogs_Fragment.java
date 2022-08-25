@@ -19,6 +19,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +39,8 @@ public class Blogs_Fragment extends Fragment {
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference sendings_ref;
 
+    private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,26 +54,22 @@ public class Blogs_Fragment extends Fragment {
 
         sendings_ref = database.getReference("sendings");
 
-        sendings_ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+        firestore.collection("sendings").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
                 myList_pojos.clear();
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    String username = ds.child("account").getValue(String.class);
-                    Float amount = ds.child("amount").getValue(Float.class);
-                    String pushKey = ds.child("pushKey").getValue(String.class);
+                for (DocumentSnapshot ds : task.getResult()) {
+                    String username = ds.get("account", String.class);
+                    Float amount = ds.get("amount", Float.class);
+                    String pushKey = ds.get("pushKey", String.class);
 
                     myList_pojos.add(new MyList_POJO(username, String.valueOf(amount), pushKey));
+
                 }
                 customAdapter.notifyDataSetChanged();
 
+            } else Toast.makeText(requireContext(), "Fetching failed", Toast.LENGTH_SHORT).show();
 
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
         });
 
         return view;

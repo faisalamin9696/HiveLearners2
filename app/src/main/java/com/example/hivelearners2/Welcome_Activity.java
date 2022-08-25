@@ -66,8 +66,6 @@ public class Welcome_Activity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(welcome_tabs));
         welcome_tabs.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
 
-
-
         assert firebaseAuth.getCurrentUser() != null;
         welcome_username_tv.setText(firebaseAuth.getCurrentUser().getDisplayName());
 
