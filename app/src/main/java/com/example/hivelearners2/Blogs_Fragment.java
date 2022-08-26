@@ -60,9 +60,9 @@ public class Blogs_Fragment extends Fragment {
                 for (DocumentSnapshot ds : task.getResult()) {
                     String username = ds.get("account", String.class);
                     Float amount = ds.get("amount", Float.class);
-                    String pushKey = ds.get("pushKey", String.class);
+                    String doc_id = ds.get("doc_id", String.class);
 
-                    myList_pojos.add(new MyList_POJO(username, String.valueOf(amount), pushKey));
+                    myList_pojos.add(new MyList_POJO(username, String.valueOf(amount), doc_id));
 
                 }
                 customAdapter.notifyDataSetChanged();

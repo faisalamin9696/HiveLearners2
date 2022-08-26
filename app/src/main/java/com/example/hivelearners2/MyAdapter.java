@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -66,16 +67,18 @@ public class MyAdapter extends ArrayAdapter<MyList_POJO> {
 
                 delete_btn.setOnClickListener(v1 -> {
 
-                    String delete_child = pojo.getPushKey();
-                    FirebaseDatabase.getInstance().getReference("sendings").child(delete_child).removeValue().addOnCompleteListener(task -> {
+                    String delete_child = pojo.getDoc_id();
+
+                    FirebaseFirestore.getInstance().collection("sendings").document(delete_child).delete().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Toast.makeText(mContext, "Deleted", Toast.LENGTH_SHORT).show();
                             this.notifyDataSetChanged();
 
                         } else
                             Toast.makeText(mContext, "Failed to delete", Toast.LENGTH_SHORT).show();
-
                     });
+
+
 
 
                 });

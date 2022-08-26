@@ -1,12 +1,20 @@
 package com.example.hivelearners2;
 
 public class MyList_POJO {
-    String title, subTitle, pushKey;
+    String title, subTitle, doc_id;
 
-    public MyList_POJO(String title, String subTitle, String pushKey) {
+    public MyList_POJO(String title, String subTitle, String doc_id) {
         this.title = title;
         this.subTitle = subTitle;
-        this.pushKey = pushKey;
+        this.doc_id = doc_id;
+    }
+
+    public String getDoc_id() {
+        return doc_id;
+    }
+
+    public void setDoc_id(String doc_id) {
+        this.doc_id = doc_id;
     }
 
     public String getTitle() {
@@ -25,11 +33,5 @@ public class MyList_POJO {
         this.subTitle = subTitle;
     }
 
-    public String getPushKey() {
-        return pushKey;
-    }
 
-    public void setPushKey(String pushKey) {
-        this.pushKey = pushKey;
-    }
 }

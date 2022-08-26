@@ -26,8 +26,8 @@ public class Transfers_Fragment extends Fragment {
         // Required empty public constructor
     }
 
-    private EditText account_num_et, amount_et;
-    private MaterialButton send_btn;
+    private EditText account_num_et, amount_et, doc_id_et;
+    private MaterialButton send_btn, update_doc_btn;
     private ProgressDialog progressDialog;
 
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -44,10 +44,31 @@ public class Transfers_Fragment extends Fragment {
         account_num_et = view.findViewById(R.id.account_num_et);
         amount_et = view.findViewById(R.id.amount_et);
         send_btn = view.findViewById(R.id.send_payment_btn);
+        doc_id_et = view.findViewById(R.id.doc_id_et);
+        update_doc_btn = view.findViewById(R.id.update_doc_btn);
+
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(requireContext());
 
         sendings_ref = database.getReference("sendings");
+
+        update_doc_btn.setOnClickListener(v -> {
+            HashMap<String, Object> hashMap = new HashMap<String, Object>();
+
+            hashMap.put("account", account_num_et.getText().toString().trim());
+            hashMap.put("amount", Float.parseFloat(amount_et.getText().toString().trim()));
+            firestore.collection("sendings").document(doc_id_et.getText().toString().trim()).update(hashMap).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+
+                    Toast.makeText(requireContext(), "Updated", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(requireContext(), "Failed", Toast.LENGTH_SHORT).show();
+                }
+
+            });
+
+
+        });
 
         send_btn.setOnClickListener(v -> {
             // Button Click Listener
@@ -70,7 +91,6 @@ public class Transfers_Fragment extends Fragment {
             hashMap.put("account", account);
             hashMap.put("amount", Float.parseFloat(amount));
             hashMap.put("doc_id", doc_id);
-
 
 
             progressDialog.setCancelable(false);
