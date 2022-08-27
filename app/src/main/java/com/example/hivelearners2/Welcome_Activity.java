@@ -112,9 +112,13 @@ public class Welcome_Activity extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         fragment = new Blogs_Fragment();
+                        startService(new Intent(getBaseContext(), MyService.class));
+
                         break;
                     case 1:
                         fragment = new Transfers_Fragment();
+                        stopService(new Intent(getBaseContext(), MyService.class));
+
                         break;
 
                 }
