@@ -1,15 +1,24 @@
 package com.example.hivelearners2;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,6 +32,7 @@ public class Signup_Activity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
     private AlertDialog alertDialog;
+    private ImageView profile_image;
 
 
     @Override
@@ -40,6 +50,24 @@ public class Signup_Activity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
         progressDialog = new ProgressDialog(Signup_Activity.this);
         alertDialog = new AlertDialog.Builder(Signup_Activity.this).create();
+        profile_image = findViewById(R.id.profileImg_iv);
+
+        ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            Bitmap image = (Bitmap) result.getData().getExtras().get("data");
+                            profile_image.setImageBitmap(image);
+                        }
+                    }
+                });
+        profile_image.setOnClickListener(view -> {
+            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+            someActivityResultLauncher.launch(intent);
+
+        });
 
 
         signup_btn.setOnClickListener(view -> {

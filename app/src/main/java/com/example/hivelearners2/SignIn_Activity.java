@@ -1,18 +1,30 @@
 package com.example.hivelearners2;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -46,9 +58,12 @@ public class SignIn_Activity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
 
 
+
         signup_btn.setOnClickListener(v -> {
             startActivity(new Intent(SignIn_Activity.this, Signup_Activity.class));
+
         });
+
 
         signin_btn.setOnClickListener(v -> {
             String email = email_et.getText().toString().toLowerCase().trim();
@@ -141,5 +156,6 @@ public class SignIn_Activity extends AppCompatActivity {
             }
         });
     }
+
 
 }

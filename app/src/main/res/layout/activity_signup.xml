@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical"
         android:padding="8dp">
 
@@ -21,6 +22,12 @@
             android:text="CREATE ACCOUNT"
             android:textSize="26sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/profileImg_iv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="5dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -124,7 +131,6 @@
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_gravity="center"
-            android:background="@null"
             android:text="Already Have an Account"
             android:textColor="@color/black"
             android:textSize="14sp"
