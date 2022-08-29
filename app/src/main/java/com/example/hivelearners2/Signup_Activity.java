@@ -23,6 +23,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class Signup_Activity extends AppCompatActivity {
 
@@ -33,6 +35,8 @@ public class Signup_Activity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private AlertDialog alertDialog;
     private ImageView profile_image;
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference storageRef = storage.getReference();
 
 
     @Override
@@ -51,6 +55,27 @@ public class Signup_Activity extends AppCompatActivity {
         progressDialog = new ProgressDialog(Signup_Activity.this);
         alertDialog = new AlertDialog.Builder(Signup_Activity.this).create();
         profile_image = findViewById(R.id.profileImg_iv);
+
+
+        storageRef.child("profile_images").putFile(null).addOnCompleteListener(task -> {
+            progressDialog.setMessage("Please wait...");
+            progressDialog.show();
+            progressDialog.setCancelable(false);
+
+            if (task.isSuccessful()) {
+                if (progressDialog.isShowing()) {
+                    progressDialog.cancel();
+                    Toast.makeText(this, "Uploaded", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
+                if (progressDialog.isShowing()) {
+                    progressDialog.cancel();
+                }
+            }
+
+
+        });
 
         ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
