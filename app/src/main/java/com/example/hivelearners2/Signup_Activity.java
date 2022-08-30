@@ -5,9 +5,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -25,6 +29,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 public class Signup_Activity extends AppCompatActivity {
 
@@ -56,27 +63,6 @@ public class Signup_Activity extends AppCompatActivity {
         alertDialog = new AlertDialog.Builder(Signup_Activity.this).create();
         profile_image = findViewById(R.id.profileImg_iv);
 
-
-        storageRef.child("profile_images").putFile(null).addOnCompleteListener(task -> {
-            progressDialog.setMessage("Please wait...");
-            progressDialog.show();
-            progressDialog.setCancelable(false);
-
-            if (task.isSuccessful()) {
-                if (progressDialog.isShowing()) {
-                    progressDialog.cancel();
-                    Toast.makeText(this, "Uploaded", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
-                if (progressDialog.isShowing()) {
-                    progressDialog.cancel();
-                }
-            }
-
-
-        });
-
         ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -84,7 +70,15 @@ public class Signup_Activity extends AppCompatActivity {
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK) {
                             Bitmap image = (Bitmap) result.getData().getExtras().get("data");
+                            // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
+                            Uri tempUri = getImageUri(getApplicationContext(), image);
+                            Log.w("data123", tempUri.toString());
+
+                            // CALL THIS METHOD TO GET THE ACTUAL PATH
+                            File finalFile = new File(getRealPathFromURI(tempUri));
                             profile_image.setImageBitmap(image);
+                            upload_image(Uri.fromFile(finalFile));
+
                         }
                     }
                 });
@@ -181,4 +175,46 @@ public class Signup_Activity extends AppCompatActivity {
     }
 
 
+    private void upload_image(Uri imageUri) {
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+        storageRef.child("profile_images").putFile(imageUri).addOnCompleteListener(task -> {
+
+            if (task.isSuccessful()) {
+                if (progressDialog.isShowing()) {
+                    progressDialog.cancel();
+                    Toast.makeText(this, "Uploaded", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
+                if (progressDialog.isShowing()) {
+                    progressDialog.cancel();
+                }
+            }
+
+
+        });
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public String getRealPathFromURI(Uri uri) {
+        String path = "";
+        if (getContentResolver() != null) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+                int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                path = cursor.getString(idx);
+                cursor.close();
+            }
+        }
+        return path;
+    }
 }
