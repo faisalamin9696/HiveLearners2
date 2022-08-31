@@ -45,6 +45,7 @@ public class Signup_Activity extends AppCompatActivity {
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference storageRef = storage.getReference();
 
+    private Uri profileImageUri = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,9 @@ public class Signup_Activity extends AppCompatActivity {
                             // CALL THIS METHOD TO GET THE ACTUAL PATH
                             File finalFile = new File(getRealPathFromURI(tempUri));
                             profile_image.setImageBitmap(image);
-                            upload_image(Uri.fromFile(finalFile));
+                            profileImageUri = Uri.fromFile(finalFile);
+
+                            //upload_image(Uri.fromFile(finalFile));
 
                         }
                     }
@@ -111,6 +114,12 @@ public class Signup_Activity extends AppCompatActivity {
                 return;
             }
 
+            if (profileImageUri == null) {
+                Toast.makeText(Signup_Activity.this, "Select Profile Image", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
             progressDialog.setMessage("Please wait...");
             progressDialog.show();
             progressDialog.setCancelable(false);
@@ -120,6 +129,7 @@ public class Signup_Activity extends AppCompatActivity {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                             .setDisplayName(username)
+                            .setPhotoUri(profileImageUri)
                             .build();
                     assert user != null;
                     user.updateProfile(profileUpdates)
