@@ -129,7 +129,7 @@ public class Signup_Activity extends AppCompatActivity {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                             .setDisplayName(username)
-                            .setPhotoUri(profileImageUri)
+                            .setPhotoUri(Uri.parse("https://i.pinimg.com/736x/f5/1b/fd/f51bfd40eaec3b5d774f1546df83048c.jpg"))
                             .build();
                     assert user != null;
                     user.updateProfile(profileUpdates)

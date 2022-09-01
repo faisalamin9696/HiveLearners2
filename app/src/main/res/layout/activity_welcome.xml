@@ -33,6 +33,21 @@
             android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/openProfile_btn"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:backgroundTint="@android:color/white"
+            android:gravity="center"
+            android:text="Profile"
+            android:textColor="@color/black"
+            app:icon="@drawable/ic_baseline_account_circle_24"
+            app:iconPadding="4dp"
+            app:iconTint="@color/black" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/logout_btn"
             style="@style/Widget.AppCompat.ImageButton"
             android:layout_width="wrap_content"

@@ -41,6 +41,7 @@ public class Welcome_Activity extends AppCompatActivity {
 
     private TabLayout welcome_tabs;
     private ViewPager viewPager;
+    private MaterialButton profile_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +54,11 @@ public class Welcome_Activity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         welcome_tabs = findViewById(R.id.welcome_tabs);
         viewPager = findViewById(R.id.viewpager);
+        profile_btn = findViewById(R.id.openProfile_btn);
 
-
+        profile_btn.setOnClickListener(view -> {
+            startActivity(new Intent(Welcome_Activity.this, Profile_Activity.class));
+        });
 
 
         welcome_username_tv = findViewById(R.id.welcome_username_tv);
