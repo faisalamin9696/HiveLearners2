@@ -20,9 +20,12 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,7 +48,7 @@ public class Signup_Activity extends AppCompatActivity {
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference storageRef = storage.getReference();
 
-    private Uri profileImageUri = null;
+    private Uri profileImageUri, profileImageDownloadUri = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,15 +76,11 @@ public class Signup_Activity extends AppCompatActivity {
                             Bitmap image = (Bitmap) result.getData().getExtras().get("data");
                             // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
                             Uri tempUri = getImageUri(getApplicationContext(), image);
-                            Log.w("data123", tempUri.toString());
-
                             // CALL THIS METHOD TO GET THE ACTUAL PATH
                             File finalFile = new File(getRealPathFromURI(tempUri));
                             profile_image.setImageBitmap(image);
                             profileImageUri = Uri.fromFile(finalFile);
-
                             //upload_image(Uri.fromFile(finalFile));
-
                         }
                     }
                 });
@@ -118,66 +117,8 @@ public class Signup_Activity extends AppCompatActivity {
                 Toast.makeText(Signup_Activity.this, "Select Profile Image", Toast.LENGTH_SHORT).show();
                 return;
             }
+            upload_image_createUser(email, password, username);
 
-
-            progressDialog.setMessage("Please wait...");
-            progressDialog.show();
-            progressDialog.setCancelable(false);
-
-            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                            .setDisplayName(username)
-                            .setPhotoUri(Uri.parse("https://i.pinimg.com/736x/f5/1b/fd/f51bfd40eaec3b5d774f1546df83048c.jpg"))
-                            .build();
-                    assert user != null;
-                    user.updateProfile(profileUpdates)
-                            .addOnCompleteListener(task1 -> {
-                                if (task1.isSuccessful()) {
-                                    firebaseAuth.signOut();
-                                    if (progressDialog.isShowing())
-                                        progressDialog.cancel();
-                                    alertDialog.setTitle("Done");
-                                    alertDialog.setMessage("Your account is created successfully");
-                                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", (dialog, which) -> {
-                                        dialog.cancel();
-
-                                    });
-                                    alertDialog.setCancelable(false);
-                                } else {
-
-                                    // Delete the account if username not save successfully to let the user retry
-                                    assert firebaseAuth.getCurrentUser() != null;
-                                    firebaseAuth.getCurrentUser().delete();
-                                    alertDialog.setTitle("Failed");
-                                    alertDialog.setMessage(task1.getException().getMessage());
-                                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", (dialog, which) -> {
-                                        dialog.cancel();
-
-                                    });
-                                }
-                                alertDialog.show();
-                            });
-
-
-                    //Sig up Successful
-                } else {
-
-                    if (progressDialog.isShowing())
-                        progressDialog.cancel();
-
-                    alertDialog.setTitle("Failed");
-                    alertDialog.setMessage(task.getException().getMessage());
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", (dialog, which) -> {
-                        dialog.cancel();
-
-                    });
-                    alertDialog.show();
-                    // Sign up failed
-                }
-
-            });
 
         });
 
@@ -185,24 +126,34 @@ public class Signup_Activity extends AppCompatActivity {
     }
 
 
-    private void upload_image(Uri imageUri) {
+    private void upload_image_createUser(String email, String password, String username) {
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
         progressDialog.setCancelable(false);
-        storageRef.child("profile_images").putFile(imageUri).addOnCompleteListener(task -> {
+
+        StorageReference photoRef = storageRef.child("profile_images").child(FirebaseAuth.getInstance().getUid() + ".jpg");
+        photoRef.putFile(profileImageUri).addOnCompleteListener(task -> {
 
             if (task.isSuccessful()) {
-                if (progressDialog.isShowing()) {
-                    progressDialog.cancel();
-                    Toast.makeText(this, "Uploaded", Toast.LENGTH_SHORT).show();
-                }
+                photoRef.getDownloadUrl().addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        profileImageDownloadUri = task1.getResult();
+                        create_user(email, password, username);
+
+                    } else {
+                        if (progressDialog.isShowing()) {
+                            progressDialog.cancel();
+                        }
+                        Toast.makeText(Signup_Activity.this, "Fail to upload image", Toast.LENGTH_SHORT).show();
+                    }
+
+                });
             } else {
                 Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
                 if (progressDialog.isShowing()) {
                     progressDialog.cancel();
                 }
             }
-
 
         });
     }
@@ -226,5 +177,62 @@ public class Signup_Activity extends AppCompatActivity {
             }
         }
         return path;
+    }
+
+    private void create_user(String email, String password, String username) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                        .setDisplayName(username)
+                        .setPhotoUri(profileImageDownloadUri)
+                        .build();
+                assert user != null;
+                user.updateProfile(profileUpdates)
+                        .addOnCompleteListener(task1 -> {
+                            if (task1.isSuccessful()) {
+                                firebaseAuth.signOut();
+                                if (progressDialog.isShowing())
+                                    progressDialog.cancel();
+                                alertDialog.setTitle("Done");
+                                alertDialog.setMessage("Your account is created successfully");
+                                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", (dialog, which) -> {
+                                    dialog.cancel();
+
+                                });
+                                alertDialog.setCancelable(false);
+                            } else {
+
+                                // Delete the account if username not save successfully to let the user retry
+                                assert firebaseAuth.getCurrentUser() != null;
+                                firebaseAuth.getCurrentUser().delete();
+                                alertDialog.setTitle("Failed");
+                                alertDialog.setMessage(task1.getException().getMessage());
+                                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", (dialog, which) -> {
+                                    dialog.cancel();
+
+                                });
+                            }
+                            alertDialog.show();
+                        });
+
+
+                //Sig up Successful
+            } else {
+
+                if (progressDialog.isShowing())
+                    progressDialog.cancel();
+
+                alertDialog.setTitle("Failed");
+                alertDialog.setMessage(task.getException().getMessage());
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", (dialog, which) -> {
+                    dialog.cancel();
+
+                });
+                alertDialog.show();
+                // Sign up failed
+            }
+
+        });
     }
 }

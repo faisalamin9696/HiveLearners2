@@ -27,6 +27,7 @@ public class Profile_Activity extends AppCompatActivity {
 
         username_tv.setText(firebaseAuth.getCurrentUser().getDisplayName());
         email_tv.setText(firebaseAuth.getCurrentUser().getEmail());
+        Log.w("mydata", String.valueOf(firebaseAuth.getCurrentUser().getPhotoUrl()));
         //profile_image.setImageURI(firebaseAuth.getCurrentUser().getPhotoUrl().toString());
 
     }
