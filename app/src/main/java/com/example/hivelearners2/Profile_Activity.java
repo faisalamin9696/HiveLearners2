@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Profile_Activity extends AppCompatActivity {
@@ -27,8 +28,11 @@ public class Profile_Activity extends AppCompatActivity {
 
         username_tv.setText(firebaseAuth.getCurrentUser().getDisplayName());
         email_tv.setText(firebaseAuth.getCurrentUser().getEmail());
-        Log.w("mydata", String.valueOf(firebaseAuth.getCurrentUser().getPhotoUrl()));
-        //profile_image.setImageURI(firebaseAuth.getCurrentUser().getPhotoUrl().toString());
 
+        try {
+            Glide.with(Profile_Activity.this).load(firebaseAuth.getCurrentUser().getPhotoUrl()).into(profile_image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
