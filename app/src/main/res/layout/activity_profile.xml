@@ -16,7 +16,7 @@
         android:layout_marginBottom="5dp"
         android:src="@drawable/ic_baseline_account_circle_24" />
 
-    <TextView
+    <EditText
         android:id="@+id/profile_username_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,6 +33,18 @@
         android:layout_marginTop="4dp"
         android:text="Email"
         android:textSize="18sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/editProfile_btn"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        app:backgroundTint="#009688"
+        android:text="Edit"
+        android:textColor="@color/white"
+        app:cornerRadius="4dp" />
 
 
 </LinearLayout>
